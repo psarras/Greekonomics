@@ -21,6 +21,7 @@ jobs:
             "tidyr",
             "scales"
           ))
+        shell: Rscript {0}
       - name: Run script
         run: Rscript Greekonomics_51_public.R
       - name: Upload plots
