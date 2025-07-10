@@ -9,6 +9,20 @@
 
 
 # Load necessary libraries
+required_packages <- c(
+  "tidyverse",
+  "ggplot2",
+  "eurostat",
+  "dplyr",
+  "showtext",
+  "tidyr",
+  "scales"
+)
+new_packages <- required_packages[!(required_packages %in% installed.packages()[, "Package"])]
+if (length(new_packages)) {
+  install.packages(new_packages, repos = "https://cloud.r-project.org")
+}
+
 library(tidyverse)
 library(ggplot2)
 library(eurostat)
@@ -16,6 +30,10 @@ library(dplyr)
 library(showtext)
 library(tidyr)
 library(scales)
+
+# Directory to save generated plots
+output_dir <- "plots"
+if (!dir.exists(output_dir)) dir.create(output_dir)
 
 
 
@@ -173,7 +191,9 @@ plot_real_gross_YD_per_capita_tepsr_wc310 <- ggplot(
   ) +
   theme_greekonomics()
 
-#Display the plot
+# Save and display the plot
+ggsave(file.path(output_dir, "real_gross_disposable_income.png"),
+       plot_real_gross_YD_per_capita_tepsr_wc310, width = 8, height = 4)
 print(plot_real_gross_YD_per_capita_tepsr_wc310)
 
 ################################################################################
@@ -244,7 +264,9 @@ plot_gdp_per_capita <- ggplot(
     axis.text.x = element_text(angle = 0, hjust = 0.5)
   )
 
-# Display the plot
+# Save and display the plot
+ggsave(file.path(output_dir, "gdp_per_capita_pps.png"),
+       plot_gdp_per_capita, width = 8, height = 4)
 print(plot_gdp_per_capita)
 
 ################################################################################
@@ -317,6 +339,9 @@ plot_real_GDP_per_capita <- ggplot(
   ) +
   theme_greekonomics()
 
+# Save and display the plot
+ggsave(file.path(output_dir, "real_gdp_per_capita.png"),
+       plot_real_GDP_per_capita, width = 8, height = 4)
 print(plot_real_GDP_per_capita)
 
 ################################################################################
@@ -395,6 +420,9 @@ plot_government_debt_tipsgo10 <- ggplot(
   ) +
   theme_greekonomics()
 
+# Save and display the plot
+ggsave(file.path(output_dir, "government_debt_gdp.png"),
+       plot_government_debt_tipsgo10, width = 8, height = 4)
 print(plot_government_debt_tipsgo10)
 
 ################################################################################
@@ -473,9 +501,9 @@ plot_current_account_balance_tipsbp20 <- ggplot(
   ) +
   theme_greekonomics()
 
-
-
-# Display
+# Save and display the plot
+ggsave(file.path(output_dir, "current_account_balance.png"),
+       plot_current_account_balance_tipsbp20, width = 8, height = 4)
 print(plot_current_account_balance_tipsbp20)
 
 
@@ -639,8 +667,11 @@ create_country_plot <- function(country_code) {
       legend.title = element_text(size = 10, face = "bold"),
       legend.key.width = unit(1.2, "cm")
     ) +
-    guides(color = guide_legend(nrow = 3, byrow = TRUE))
-  
+      guides(color = guide_legend(nrow = 3, byrow = TRUE))
+
+  ggsave(file.path(output_dir,
+                   paste0("sectoral_investment_", country_code, ".png")),
+         plot, width = 8, height = 4)
   print(plot)
 }
 
@@ -726,7 +757,9 @@ plot_unemp_1524_tipsun20 <- ggplot(
   ) +
   theme_greekonomics()
 
-# Display the plot
+# Save and display the plot
+ggsave(file.path(output_dir, "youth_unemployment.png"),
+       plot_unemp_1524_tipsun20, width = 8, height = 4)
 print(plot_unemp_1524_tipsun20)
 
 
@@ -792,6 +825,9 @@ plot_unemp_1574 <- ggplot(
   ) +
   theme_greekonomics()
 
+# Save and display the plot
+ggsave(file.path(output_dir, "total_unemployment.png"),
+       plot_unemp_1574, width = 8, height = 4)
 print(plot_unemp_1574)
 
 ################################################################################
@@ -863,7 +899,9 @@ plot_overqualification <- ggplot(
     axis.text.x = element_text(angle = 0, hjust = 0.5)
   )
 
-# Display the plot
+# Save and display the plot
+ggsave(file.path(output_dir, "overqualification.png"),
+       plot_overqualification, width = 8, height = 4)
 print(plot_overqualification)
 
 ################################################################################
@@ -941,6 +979,9 @@ plot_people_risk_of_poverty_tipslc10 <- ggplot(
   ) +
   theme_greekonomics()
 
+# Save and display the plot
+ggsave(file.path(output_dir, "risk_of_poverty.png"),
+       plot_people_risk_of_poverty_tipslc10, width = 8, height = 4)
 print(plot_people_risk_of_poverty_tipslc10)
 
 ################################################################################
@@ -1026,4 +1067,7 @@ plot_unit_labour_cost_nominal_nama_10_lp_ulc <- ggplot(
   ) +
   theme_greekonomics()
 
-plot(plot_unit_labour_cost_nominal_nama_10_lp_ulc)
+# Save and display the plot
+ggsave(file.path(output_dir, "compensation_per_hour.png"),
+       plot_unit_labour_cost_nominal_nama_10_lp_ulc, width = 8, height = 4)
+print(plot_unit_labour_cost_nominal_nama_10_lp_ulc)
