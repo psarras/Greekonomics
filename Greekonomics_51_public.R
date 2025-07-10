@@ -9,6 +9,20 @@
 
 
 # Load necessary libraries
+required_packages <- c(
+  "tidyverse",
+  "ggplot2",
+  "eurostat",
+  "dplyr",
+  "showtext",
+  "tidyr",
+  "scales"
+)
+new_packages <- required_packages[!(required_packages %in% installed.packages()[, "Package"])]
+if (length(new_packages)) {
+  install.packages(new_packages, repos = "https://cloud.r-project.org")
+}
+
 library(tidyverse)
 library(ggplot2)
 library(eurostat)

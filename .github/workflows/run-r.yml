@@ -12,7 +12,7 @@ jobs:
       - uses: r-lib/actions/setup-r@v2
       - name: Install packages
         run: |
-          install.packages(c(
+          Rscript -e 'install.packages(c(
             "tidyverse",
             "ggplot2",
             "eurostat",
@@ -20,8 +20,7 @@ jobs:
             "showtext",
             "tidyr",
             "scales"
-          ))
-        shell: Rscript {0}
+          ), repos = "https://cloud.r-project.org")'
       - name: Run script
         run: Rscript Greekonomics_51_public.R
       - name: Upload plots
